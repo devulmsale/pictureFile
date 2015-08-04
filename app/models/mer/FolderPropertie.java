@@ -6,6 +6,7 @@ import play.db.jpa.Model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by upshan on 15/8/4.
@@ -55,6 +56,18 @@ public class FolderPropertie extends Model {
 
     public static FolderPropertie findByUN_DeletedAndId(Long id) {
         return FolderPropertie.find("deleted = ? and id = ?" , DeletedStatus.UN_DELETED , id).first();
+    }
+
+    public static List<FolderPropertie> findByTopFolder() {
+        return FolderPropertie.find("parentFoulder = null and deleted = ?" , DeletedStatus.UN_DELETED).fetch();
+    }
+
+    public static Long countByParentFolder(Long id) {
+        return FolderPropertie.count("parentFoulder.id = ? and deleted = ?" , id , DeletedStatus.UN_DELETED);
+    }
+
+    public static List<FolderPropertie> findByParentFolder(Long id) {
+        return FolderPropertie.find("parentFoulder.id = ? and deleted = ?" , id , DeletedStatus.UN_DELETED).fetch();
     }
 
 }

@@ -5,12 +5,13 @@ import play.db.jpa.Model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by upshan on 15/8/3.
  */
 @Entity
-@Table(name = "merchants")
+@Table(name = "merchant_images")
 public class MerchantImage extends Model{
 
     /**
@@ -19,6 +20,13 @@ public class MerchantImage extends Model{
     @JoinColumn(name = "merchant_id")
     @ManyToOne
     public Merchant merchant;
+
+    /**
+     * 属于哪个文件夹
+     */
+    @JoinColumn(name = "folder_propertie_id")
+    @ManyToOne
+    public FolderPropertie folderPropertie;
 
     /**
      * 图片宽度
@@ -52,4 +60,13 @@ public class MerchantImage extends Model{
      */
     @Enumerated(EnumType.ORDINAL)
     public DeletedStatus deleted;
+
+
+    public static List<MerchantImage> findByFolderPropertie(Long fid) {
+        return MerchantImage.find("folderPropertie.id = ? or folderPropertie.parentFoulder.id = ?" , fid , fid).fetch();
+    }
+
+    public static List<MerchantImage> findByFolderPropertieAndMerchant(Long merchantId ,  Long fid) {
+        return MerchantImage.find("merchant.id = ? and ( folderPropertie.id = ? or folderPropertie.parentFoulder.id = ? )" , merchantId , fid , fid).fetch();
+    }
 }
