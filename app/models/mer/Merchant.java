@@ -1,6 +1,7 @@
 package models.mer;
 
 import models.constants.DeletedStatus;
+import org.h2.command.dml.Delete;
 import play.db.jpa.Model;
 
 import javax.persistence.*;
@@ -37,4 +38,9 @@ public class Merchant extends Model{
      */
     @Enumerated(EnumType.ORDINAL)
     public DeletedStatus deleted;
+
+
+    public static Merchant findByCode(String code) {
+        return Merchant.find("code = ? and deleted = ?" , code , DeletedStatus.UN_DELETED).first();
+    }
 }
