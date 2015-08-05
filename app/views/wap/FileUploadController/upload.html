@@ -56,6 +56,12 @@
                 folderSelect: false
             });
         });
+        function chooseTreeItem() {
+            setTimeout(function() {
+                alert($('.am-tree-selected .am-tree-label').html());
+            }, 500);
+
+        }
     </script>
 </head>
 <body>
@@ -79,7 +85,7 @@
                 <ul class="am-tree-branch-children"></ul>
                 <div class="am-tree-loader"><span class="am-icon-spin am-icon-spinner"></span></div>
             </li>
-            <li class="am-tree-item am-hide" data-template="treeitem">
+            <li class="am-tree-item am-hide" onclick="chooseTreeItem();" data-template="treeitem">
                 <button class="am-tree-item-name">
                     <span class="am-tree-icon am-tree-icon-item"></span>
                     <span class="am-tree-label"></span>
