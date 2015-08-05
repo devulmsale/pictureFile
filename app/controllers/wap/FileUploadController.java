@@ -24,33 +24,36 @@ public class FileUploadController extends Controller {
     }
 
     public static void folderJSON() {
-        Map<String , Object> resultMap = new HashMap<>();
+        //查询 一级类别
         List<FolderPropertie> topFolderList = FolderPropertie.findByTopFolder();
-        System.out.println("topFolderlis==="+topFolderList.size());
+        // 定义一个顶级 FolderJSON  List
+        List<FolderJSON> topFolderJsonList = new ArrayList<>();
+        // 定义一个 topFolderJSON 循环使用
+        FolderJSON topFolderJSON = null;
         for(FolderPropertie topFolder : topFolderList) {
+            topFolderJSON = new FolderJSON();
             Long count = FolderPropertie.countByParentFolder(topFolder.id);
-            resultMap.put("title" , topFolder.name);
-            resultMap.put("type" , count > 0 ? "folder" : "item");
+            topFolderJSON.title = topFolder.name;
+            topFolderJSON.type = count > 0 ? "folder" : "item";
+            // 如果有子菜单
             if(count > 0) {
+                // 查询子菜单
                 List<FolderPropertie> childFolderList = FolderPropertie.findByParentFolder(topFolder.id);
-                System.out.println("childFolderList==="+childFolderList.size());
-              //  Map<String , Object> childMap = new HashMap<>();
+                // 定义 子菜单的 FolderJSON List
                 List<FolderJSON> folderJSONList = new ArrayList<>();
                 FolderJSON folderJSON = null;
+                // 循环子菜单
                 for(FolderPropertie childFolder : childFolderList) {
                     folderJSON = new FolderJSON();
                     folderJSON.title = childFolder.name;
                     folderJSON.type = "item";
                     folderJSONList.add(folderJSON);
                 }
-                resultMap.put("products" , folderJSONList);
+                topFolderJSON.products = folderJSONList;
             }
+            topFolderJsonList.add(topFolderJSON);
 
         }
-        for (Map.Entry<String, Object> entry : resultMap.entrySet()) {
-            System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue());
-        }
-       // Logger.info("ddd=="+resultMap.size());
-       renderJSON(resultMap);
+        renderJSON(topFolderJsonList);
     }
 }
