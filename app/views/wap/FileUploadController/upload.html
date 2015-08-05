@@ -36,8 +36,9 @@
                 success: function (data){
                     dataJSON = data;
                 } ,
-                error:function (){
+                error:function (data){
                     alert(9)
+                    dataJSON = data;
                 }
 
             });

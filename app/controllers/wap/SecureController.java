@@ -8,10 +8,13 @@ import play.mvc.Controller;
 public class SecureController extends Controller {
 
     /**
-     * 注册方法
+     * 跳转注册
      */
     public static void register() {
         render();
     }
+
+
+
 
 }

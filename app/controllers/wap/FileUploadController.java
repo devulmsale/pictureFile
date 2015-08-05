@@ -1,17 +1,11 @@
 package controllers.wap;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import jodd.http.HttpRequest;
-import jodd.http.HttpResponse;
 import models.common.FolderJSON;
 import models.mer.FolderPropertie;
 import play.Logger;
 import play.Play;
-import play.libs.WS;
 import play.mvc.Controller;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,13 +26,15 @@ public class FileUploadController extends Controller {
     public static void folderJSON() {
         Map<String , Object> resultMap = new HashMap<>();
         List<FolderPropertie> topFolderList = FolderPropertie.findByTopFolder();
+        System.out.println("topFolderlis==="+topFolderList.size());
         for(FolderPropertie topFolder : topFolderList) {
             Long count = FolderPropertie.countByParentFolder(topFolder.id);
             resultMap.put("title" , topFolder.name);
             resultMap.put("type" , count > 0 ? "folder" : "item");
             if(count > 0) {
                 List<FolderPropertie> childFolderList = FolderPropertie.findByParentFolder(topFolder.id);
-                Map<String , Object> childMap = new HashMap<>();
+                System.out.println("childFolderList==="+childFolderList.size());
+              //  Map<String , Object> childMap = new HashMap<>();
                 List<FolderJSON> folderJSONList = new ArrayList<>();
                 FolderJSON folderJSON = null;
                 for(FolderPropertie childFolder : childFolderList) {
@@ -47,10 +43,14 @@ public class FileUploadController extends Controller {
                     folderJSON.type = "item";
                     folderJSONList.add(folderJSON);
                 }
-                resultMap.put("products" , folderJSON);
+                resultMap.put("products" , folderJSONList);
             }
 
         }
+        for (Map.Entry<String, Object> entry : resultMap.entrySet()) {
+            System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue());
+        }
+       // Logger.info("ddd=="+resultMap.size());
        renderJSON(resultMap);
     }
 }
