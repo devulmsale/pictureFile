@@ -30,15 +30,16 @@ public class FileUploadController extends Controller {
     }
 
     public static void folderJSON() {
-        Map<String , Object> resultMap = new HashMap<>();
         List<FolderPropertie> topFolderList = FolderPropertie.findByTopFolder();
+        List<FolderJSON> topFolderJsonList = new ArrayList<>();
+        FolderJSON topFolderJSON = null;
         for(FolderPropertie topFolder : topFolderList) {
+            topFolderJSON = new FolderJSON();
             Long count = FolderPropertie.countByParentFolder(topFolder.id);
-            resultMap.put("title" , topFolder.name);
-            resultMap.put("type" , count > 0 ? "folder" : "item");
+            topFolderJSON.title = topFolder.name;
+            topFolderJSON.type = count > 0 ? "folder" : "item";
             if(count > 0) {
                 List<FolderPropertie> childFolderList = FolderPropertie.findByParentFolder(topFolder.id);
-                Map<String , Object> childMap = new HashMap<>();
                 List<FolderJSON> folderJSONList = new ArrayList<>();
                 FolderJSON folderJSON = null;
                 for(FolderPropertie childFolder : childFolderList) {
@@ -47,10 +48,12 @@ public class FileUploadController extends Controller {
                     folderJSON.type = "item";
                     folderJSONList.add(folderJSON);
                 }
-                resultMap.put("products" , folderJSON);
+                topFolderJSON.products = folderJSONList;
             }
+            topFolderJsonList.add(topFolderJSON);
 
         }
-       renderJSON(resultMap);
+        Logger.info("topFolderJsonList : %s " , topFolderJsonList);
+        renderJSON(topFolderJsonList);
     }
 }
