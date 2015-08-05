@@ -62,6 +62,33 @@ public class MerchantImage extends Model{
     public DeletedStatus deleted;
 
 
+    public MerchantImage() {
+        super();
+    }
+
+    public MerchantImage(Merchant merchant , FolderPropertie folderPropertie , Integer width , Integer height , String url , String ufid) {
+        this.merchant = merchant;
+        this.folderPropertie = folderPropertie;
+        this.width = width;
+        this.height = height;
+        this.uFId = ufid;
+        this.url = url;
+        this.createdAt = new Date();
+        this.deleted = DeletedStatus.UN_DELETED;
+        this.save();
+    }
+
+    public MerchantImage(Merchant merchant , FolderPropertie folderPropertie , Integer width , Integer height) {
+        this.merchant = merchant;
+        this.folderPropertie = folderPropertie;
+        this.width = width;
+        this.height = height;
+        this.createdAt = new Date();
+        this.deleted = DeletedStatus.UN_DELETED;
+        this.save();
+    }
+
+
     public static List<MerchantImage> findByFolderPropertie(Long fid) {
         return MerchantImage.find("folderPropertie.id = ? or folderPropertie.parentFoulder.id = ?" , fid , fid).fetch();
     }

@@ -53,15 +53,16 @@
                 },
                 multiSelect: false,
                 cacheItems: true,
-                folderSelect: false
+                folderSelect: true
+            });
+
+            $('#firstTree').on('selected.tree.amui', function (event, data) {
+                var id = $('.am-tree-selected').attr("id");
+                $('#firstTree').tree('openFolder', $('#'+id+"-label"));
+                $('#folderId').val(id);
+                // do something with data: { selected: [array], target: [object] }
             });
         });
-        function chooseTreeItem() {
-            setTimeout(function() {
-                alert($('.am-tree-selected .am-tree-label').html());
-            }, 500);
-
-        }
     </script>
 </head>
 <body>
@@ -85,7 +86,7 @@
                 <ul class="am-tree-branch-children"></ul>
                 <div class="am-tree-loader"><span class="am-icon-spin am-icon-spinner"></span></div>
             </li>
-            <li class="am-tree-item am-hide" onclick="chooseTreeItem();" data-template="treeitem">
+            <li class="am-tree-item am-hide" data-template="treeitem">
                 <button class="am-tree-item-name">
                     <span class="am-tree-icon am-tree-icon-item"></span>
                     <span class="am-tree-label"></span>
@@ -95,7 +96,7 @@
     </div>
     <div class="am-u-lg-8">
         <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2
-  am-avg-md-3 am-avg-lg-4 am-gallery-overlay" data-am-gallery="{ pureview: true }">
+  am-avg-md-3 am-avg-lg-4 am-gallery-overlay" style="height:300px" data-am-gallery="{ pureview: true }">
             <li>
                 <div class="am-gallery-item">
                     <a href="http://s.amazeui.org/media/i/demos/bing-1.jpg" class="">
@@ -137,6 +138,38 @@
                 </div>
             </li>
         </ul>
+
+
+        <!-- 上传图片 -->
+        <form action="@{wap.FileUploadController.saveFile()}" id="imgFrm" enctype="multipart/form-data" method="POST">
+        <div class="am-form-group am-form-file am-u-sm-5">
+            <button type="button" class="am-btn am-btn-danger am-btn-sm">
+                <i class="am-icon-cloud-upload"></i> 选择要上传的文件</button>
+            <input id="doc-form-file" type="file" name="images" multiple>
+            <input type="hidden" name="folderId" id="folderId">
+        </div>
+        </form>
+        <div class="am-u-sm-7">
+            <button id="frmBtn" name="frmBtn">提交</button>
+        </div>
+        <div id="file-list"></div>
+        <script>
+            $(function() {
+                $('#doc-form-file').on('change', function() {
+                    var fileNames = '';
+                    $.each(this.files, function() {
+                        fileNames += '<span class="am-badge">' + this.name + '</span> ';
+                    });
+                    $('#file-list').html(fileNames);
+                });
+
+                $('#frmBtn').click(function() {
+                    $('#imgFrm').submit()
+                })
+            });
+        </script>
+
+        <!-- 上传图片结束 -->
     </div>
 </div>
 
