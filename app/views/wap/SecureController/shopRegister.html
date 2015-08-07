@@ -3,7 +3,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>用户注册</title>
+    <title>商户注册</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
@@ -35,7 +35,7 @@
 </div>
 <div class="am-g">
     <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
-        <h3>登录</h3>
+        <h3>商户注册</h3>
         <hr>
         <div class="am-btn-group">
             <a href="#" class="am-btn am-btn-secondary am-btn-sm"><i class="am-icon-github am-icon-sm"></i> Github</a>
@@ -45,27 +45,21 @@
         <br>
         <br>
 
-        <form method="post" class="am-form" >
-            <label for="email">邮箱:</label>
-            <input type="email" name="" id="email" value="">
-            <br>
-            <label for="password">名称:</label>
-            <input type="text" name="" id="name" value="">
-            <br>
-            <label for="password">密码:</label>
-            <input type="password" name="" id="password" value="">
-            <br>
-            <label for="password">确认密码:</label>
-            <input type="password" name="" id="conPassword" value="">
-            <br>
-            <label for="remember-me">
-                <input id="remember-me" type="checkbox">
-                记住密码
-            </label>
-            <br />
+        <form method="post" class="am-form" action="/createShop" >
+            <label for="name">名称:</label>
+            <input type="text" name="merchant.name"  value=""><span style="color: red;">#{error 'merchant.name' /}</span>
+            <br/>
+            <label for="name">该商户下的管理员登录名称:</label>
+            <input type="text" name="merchantUser.loginName" value=""><span style="color: red;">#{error 'merchantUser.loginName' /}</span>
+            <br/>
+            <label for="name">密码:</label>
+            <input type="password" name="merchantUser.password"  value=""><span style="color: red;">#{error 'merchantUser.password' /}</span>
+            <br/>
+            <label for="name">确认密码:</label>
+            <input type="password" name="merchantUser.cofPassword"  value=""><span style="color: red;">#{error 'merchantUser.cofPassword' /}${flash.get("cofPassword")}</span>
+            <br/>
             <div class="am-cf">
-                <input type="submit" name="" value="登 录" class="am-btn am-btn-primary am-btn-sm am-fl">
-                <input type="submit" name="" value="忘记密码 ^_^? " class="am-btn am-btn-default am-btn-sm am-fr">
+                <input type="submit" name="" value="提 交" class="am-btn am-btn-primary am-btn-sm am-fl">
             </div>
         </form>
         <hr>

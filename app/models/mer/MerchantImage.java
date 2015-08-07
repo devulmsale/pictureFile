@@ -88,6 +88,14 @@ public class MerchantImage extends Model{
         this.save();
     }
 
+    public static List<MerchantImage> findByMerChant(Long mid){
+        return MerchantImage.find("merchant.id = ?" , mid ).fetch();
+    }
+    public static List<MerchantImage> findByFolderMerChant(Long mid,Long fid){
+        return MerchantImage.find("merchant.id = ? and folderPropertie.id = ?" , mid,fid ).fetch();
+    }
+
+
 
     public static List<MerchantImage> findByFolderPropertie(Long fid) {
         return MerchantImage.find("folderPropertie.id = ? or folderPropertie.parentFoulder.id = ?" , fid , fid).fetch();
