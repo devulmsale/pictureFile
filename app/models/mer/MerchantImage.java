@@ -92,7 +92,7 @@ public class MerchantImage extends Model{
         return MerchantImage.find("merchant.id = ?" , mid ).fetch();
     }
     public static List<MerchantImage> findByFolderMerChant(Long mid,Long fid){
-        return MerchantImage.find("merchant.id = ? and folderPropertie.id = ?" , mid,fid ).fetch();
+        return MerchantImage.find("merchant.id = ? and (folderPropertie.id = ? or folderPropertie.parentFoulder.id = ? )" , mid,fid ,fid).fetch();
     }
 
 

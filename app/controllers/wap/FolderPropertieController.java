@@ -24,10 +24,8 @@ public class FolderPropertieController extends Controller {
         if(validation.hasErrors()){
             params.flash();
             validation.keep();
-            System.out.println("dddsss");
             FileUploadController.upload();
         }
-        System.out.println("wwww");
         folderPropertie.merchant=MerchantSecure.getMerchant();
         folderPropertie.merchantUser=MerchantSecure.getMerchantUser();
         if(idandlev.equals("")){

@@ -25,8 +25,12 @@ POST /imageAjax                                 wap.FileUploadController.getImag
 *   /login                                      wap.auth.merchantsecure.login
 *   /showShopPic                                wap.FileUploadController.showShopPic
 
+
+
 # foundation
-GET  /folderJSON                                foundation.folderJSON.excute
+GET  /folderJSON                                 foundation.folderJSON.excute
+POST  /imageJSON                                 foundation.imageJSON.excute
+POST  /imageJSON1                                 foundation.fileUpJSON1.excute
 
 
 
