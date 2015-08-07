@@ -36,11 +36,29 @@ public class MerchantUser extends Model {
      * 登录名.
      */
     @Required (message = "登录名称长度为4--10位")   //必填项目
+    @Unique (message = "该登录名称已经用过请重新填写")
     @MinLength(value = 4 , message = "不能低于4位有效数字")
     @MaxLength(value = 10 , message = "不能大于10位有效数字")
     @Column(name = "login_name", length = 20)
     public String loginName;
 
+
+    /**
+     *  密码
+     * 此属性不会存到数据库
+     */
+    @Required(message = "密码不能为空")
+    @Transient
+    public String password;
+
+
+    /**
+     * 确认密码
+     * 此属性不会存到数据库
+     */
+    @Required(message = "密码不能为空")
+    @Transient
+    public String cofPassword;
 
     /**
      * 加密后密码.
@@ -102,17 +120,17 @@ public class MerchantUser extends Model {
             Logger.info("传入密码为空，登录失败");
             return null;
         }
-        MerchantUser user = MerchantUser.find("loginName = ?", userName).first();
+        MerchantUser user = MerchantUser.find("loginName = ? and deleted = ?  ", userName,DeletedStatus.UN_DELETED).first();
         if (user == null) {
             Logger.info("找不到指定用户名(%s)对应的商户操作员.", userName);
             return null;
         }
         // TODO  暂时屏蔽掉密码
-//        String hashPassword = DigestUtils.md5Hex(password + user.passwordSalt);
-//        if (!hashPassword.equals(user.encryptedPassword)) {
-//            Logger.info("密码不匹配，user.encryptedPassword=%s, hashPassword=%s", user.encryptedPassword, hashPassword);
-//            return null;
-//        }
+        String hashPassword = DigestUtils.md5Hex(password + user.passwordSalt);
+        if (!hashPassword.equals(user.encryptedPassword)) {
+            Logger.info("密码不匹配，user.encryptedPassword=%s, hashPassword=%s", user.encryptedPassword, hashPassword);
+            return null;
+        }
         return user;
     }
 

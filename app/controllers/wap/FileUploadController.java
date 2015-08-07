@@ -27,47 +27,48 @@ import java.util.Map;
 @With(MerchantSecure.class)
 public class FileUploadController extends Controller {
 
+    /**
+     * 跳转到该商户下所含文件夹下的所有图片
+     *
+     */
     public static void upload() {
-        render();
+        Merchant merchant = MerchantSecure.getMerchant();
+        //获取该商户下所有的文件夹
+       List<FolderPropertie> folderList =FolderPropertie.findByMerchant(merchant.id);
+        //获取文件下的图片
+        List<MerchantImage>  imageList=  MerchantImage.findByMerChant(merchant.getId());
+        render(imageList, folderList);
     }
 
-    public static void folderJSON() {
-        List<FolderPropertie> topFolderList = FolderPropertie.findByTopFolder();
-        List<FolderJSON> topFolderJsonList = new ArrayList<>();
-        FolderJSON topFolderJSON = null;
-        FolderAttr topAttr = null;
-        for(FolderPropertie topFolder : topFolderList) {
-            topFolderJSON = new FolderJSON();
-            Long count = FolderPropertie.countByParentFolder(topFolder.id);
-            topAttr = new FolderAttr();
-            topAttr.id = topFolder.id.toString();
-            topFolderJSON.attr = topAttr;
-            topFolderJSON.title = topFolder.name;
-            topFolderJSON.type = count > 0 ? "folder" : "item";
-            if(count > 0) {
-                List<FolderPropertie> childFolderList = FolderPropertie.findByParentFolder(topFolder.id);
-                List<FolderJSON> folderJSONList = new ArrayList<>();
-                FolderJSON folderJSON = null;
-                FolderAttr childAttr = null;
-                for(FolderPropertie childFolder : childFolderList) {
-                    folderJSON = new FolderJSON();
-                    childAttr = new FolderAttr();
-                    childAttr.id = childFolder.id.toString();
-                    folderJSON.attr = childAttr;
-                    folderJSON.title = childFolder.name;
-                    folderJSON.type = "item";
-                    folderJSONList.add(folderJSON);
-                }
-                topFolderJSON.products = folderJSONList;
-            }
-            topFolderJsonList.add(topFolderJSON);
+    /**
+     * ajax取到某个文件夹下的图片
+     * @param id
+     */
+    public static void getImageByFolderAjax(Long id){
+        //获取指定文件下的图片
+        Merchant merchant = MerchantSecure.getMerchant();
+        List<MerchantImage>  imageList=  MerchantImage.findByFolderMerChant(merchant.getId(), id);
+        renderJSON(imageList);
+    }
 
-        }
-        Logger.info("topFolderJsonList :" + topFolderJsonList);
+    /**
+     * 取到文件夹子父级关系列表
+     */
+    public static void folderJSON() {
+        List<FolderJSON> topFolderJsonList = FolderPropertie.findAllFolderJSON();
         renderJSON(topFolderJsonList);
     }
 
 
+
+    /**
+     * 保存添加的图片
+     * @param images
+     * @param folderId
+     * @param width
+     * @param height
+     * @throws Exception
+     */
     public static void saveFile(File images , Long folderId , Integer width , Integer height) throws Exception {
         Merchant merchant = MerchantSecure.getMerchant();
         // 拿到文件夹
@@ -80,6 +81,17 @@ public class FileUploadController extends Controller {
             merchantImage.url = ImageUploader.getImageUrl(imageUploadResult.ufId, width+"x"+height);
             merchantImage.save();
         }
-        Logger.info("file : %s ----------" , images);
+        Logger.info("file : %s ----------", images);
+    }
+    /**
+     * 展示该商户下的所有图片
+     */
+    public static void showShopPic(){
+        Merchant merchant = MerchantSecure.getMerchant();
+        //获取该商户下所有的文件夹
+        List<FolderPropertie> folderList =FolderPropertie.findByMerchant(merchant.id);
+        //获取文件下的图片
+        List<MerchantImage>  imageList=  MerchantImage.findByMerChant(merchant.getId());
+        render(imageList,folderList);
     }
 }

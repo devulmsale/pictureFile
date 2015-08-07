@@ -14,8 +14,20 @@ GET     /public/                                staticDir:public
 
 # WAP
 *   /register                                   wap.SecureController.register
+*   /shopRegister                               wap.SecureController.shopRegister
+*   /createShop                                 wap.SecureController.createShopRegister
+*   /shopRegister                               wap.SecureController.shopRegister
 *   /upload                                     wap.FileUploadController.upload
 POST /folder/json                               wap.FileUploadController.folderJSON
+POST /imageAjax                                 wap.FileUploadController.getImageByFolderAjax
+*   /creatRegister                              wap.SecureController.creatRegister
+*   /createFolder                               wap.FolderPropertieController.createFolder
+*   /login                                      wap.auth.merchantsecure.login
+*   /showShopPic                                wap.FileUploadController.showShopPic
+
+# foundation
+GET  /folderJSON                                foundation.folderJSON.excute
+
 
 
 # foundation

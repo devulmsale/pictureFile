@@ -25,7 +25,7 @@ public class MerchantSecure extends Controller {
 
     public static final  String REMEMBERME_COOKIE_NAME = "merchantUser_Name";
     private static final String AUTO_LOGIN_COOKIE_NAME = "merchantUser_Token";
-    private static final String AUTO_LOGIN_URL = "/merchant/login";
+    private static final String AUTO_LOGIN_URL = "/login";
     private static final String AUTO_LOGIN_BACK_URL = "/upload";
 
 
@@ -51,7 +51,7 @@ public class MerchantSecure extends Controller {
      * oauth用户的样例: UserProfile#SinaWeibo:1802362721
      * @return
      */
-    public static MerchantUser getMerchantUser() {
+    public static MerchantUser  getMerchantUser() {
         MerchantUser merchantUser = null;
         String uid = session.get(MerchantUser.LOGIN_ID);
         if (uid != null && !uid.equals("") && ! uid.equals("null")) {
