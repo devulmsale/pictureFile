@@ -31,12 +31,12 @@ public class MerchantImage extends Model{
     /**
      * 图片宽度
      */
-    public Integer width;
+    //public Integer width;
 
     /**
      * 图片高度
      */
-    public Integer height;
+   // public Integer height;
 
     /**
      * 图片路径
@@ -69,8 +69,8 @@ public class MerchantImage extends Model{
     public MerchantImage(Merchant merchant , FolderPropertie folderPropertie , Integer width , Integer height , String url , String ufid) {
         this.merchant = merchant;
         this.folderPropertie = folderPropertie;
-        this.width = width;
-        this.height = height;
+       // this.width = width;
+       // this.height = height;
         this.uFId = ufid;
         this.url = url;
         this.createdAt = new Date();
@@ -81,8 +81,8 @@ public class MerchantImage extends Model{
     public MerchantImage(Merchant merchant , FolderPropertie folderPropertie , Integer width , Integer height) {
         this.merchant = merchant;
         this.folderPropertie = folderPropertie;
-        this.width = width;
-        this.height = height;
+        //this.width = width;
+       // this.height = height;
         this.createdAt = new Date();
         this.deleted = DeletedStatus.UN_DELETED;
         this.save();

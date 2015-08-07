@@ -1,12 +1,14 @@
 package controllers.wap;
 
 import controllers.wap.auth.MerchantSecure;
-import controllers.pic_api.vo.FolderJSON;
 import helper.imageupload.ImageUploadResult;
 import helper.imageupload.ImageUploader;
+import jodd.http.HttpRequest;
+import jodd.http.HttpResponse;
 import models.mer.FolderPropertie;
 import models.mer.Merchant;
 import models.mer.MerchantImage;
+import models.movie_api.vo.FolderJSON;
 import play.Logger;
 import play.mvc.Controller;
 import play.mvc.With;
@@ -74,6 +76,10 @@ public class FileUploadController extends Controller {
             merchantImage.url = ImageUploader.getImageUrl(imageUploadResult.ufId, width+"x"+height);
             merchantImage.save();
         }
+
+
+
+
         Logger.info("file : %s ----------", images);
     }
     /**

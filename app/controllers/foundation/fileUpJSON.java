@@ -40,6 +40,7 @@ public class fileUpJSON extends Controller {
 
         //判断文件类型
         if(isImage(image)){
+          //  Logger.info("是图片");
         }else{
             map.put("success",false);
             map.put("msg","传入的文件不是图片文件");
@@ -74,10 +75,19 @@ public class fileUpJSON extends Controller {
             renderJSON(map);
             e.printStackTrace();
         }
+
+        Long size=image.length();//文件的大小
+        Long maxSize=1024*1024*5l;
+        if(size>maxSize){
+            map.put("success",false);
+            map.put("msg", "上传的图片太大请重新上传");
+            renderJSON(map);
+        }
+
         Integer width=sourceImg.getWidth();
         Integer height= sourceImg.getHeight();
 
-        renderJSON(null);
+
         FolderPropertie folderPropertie = FolderPropertie.findByUN_DeletedAndId(folderId);
         MerchantImage merchantImage = new MerchantImage(merchant , folderPropertie , width , height);
         /* 保存图片代码 */
@@ -104,14 +114,8 @@ public class fileUpJSON extends Controller {
 
     }
 
-    public static String getImage(String code , String uFid , Integer width , Integer height) {
-        Object imageUrl =  Cache.get("CACHE_IMAGE_" + uFid + "_" + width + "x" + height);
-        if(imageUrl != null) {
-            return imageUrl.toString();
-        }else{
-           return ImageUploader.getImageUrl(uFid, width+"x"+height);
-        }
-    }
+
+
 
     /**
      * 判断文件是否是图片文件

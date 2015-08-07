@@ -1,10 +1,11 @@
 package controllers.foundation;
 
-import controllers.pic_api.vo.FolderJSON;
 import me.chanjar.weixin.common.util.StringUtils;
 import models.mer.FolderPropertie;
 import models.mer.Merchant;
 import models.mer.MerchantUser;
+import models.movie_api.vo.FolderJSON;
+import play.Logger;
 import play.mvc.Controller;
 
 import java.util.HashMap;
@@ -25,6 +26,12 @@ public class folderJSON extends Controller {
      *
      */
     public static void excute(String code , String loginName , String password) {
+
+        Logger.info("执行 folderJSON.excute");
+
+
+        Logger.info(" code : %s  | loginName : %s  | password : %s ---" , code , loginName , password);
+
         Map<String , Object> resultMap = new HashMap<>();
 
         /**
@@ -36,6 +43,8 @@ public class folderJSON extends Controller {
             renderJSON(resultMap);
         }
 
+        Logger.info("1");
+
         /**
          * 判断 loginName 是否为空
          */
@@ -45,6 +54,8 @@ public class folderJSON extends Controller {
             renderJSON(resultMap);
         }
 
+        Logger.info("2");
+
         /**
          * 判断 password 是否为空
          */
@@ -53,6 +64,7 @@ public class folderJSON extends Controller {
             resultMap.put("msg" , "未获取到password信息");
             renderJSON(resultMap);
         }
+        Logger.info("3");
 
         /**
          * 判断商户是否存在
@@ -63,6 +75,7 @@ public class folderJSON extends Controller {
             resultMap.put("msg" , "code 不存在或已删除");
             renderJSON(resultMap);
         }
+        Logger.info("4");
 
         /**
          * 判断账号密码是否匹配
@@ -73,7 +86,7 @@ public class folderJSON extends Controller {
             resultMap.put("msg" , "用户名或密码错误");
             renderJSON(resultMap);
         }
-
+        Logger.info("5");
         /**
          * 判断登录人和商户是否一致
          */
@@ -82,8 +95,10 @@ public class folderJSON extends Controller {
             resultMap.put("msg" , "登录账号所属商户跟code商户不一致");
             renderJSON(resultMap);
         }
+        Logger.info("6");
 
         List<FolderJSON> topFolderJsonList = FolderPropertie.findAllFolderJSON();
-        renderJSON(topFolderJsonList);
+        Logger.info("7");
+        renderJSON("folderJSON"+topFolderJsonList);
     }
 }

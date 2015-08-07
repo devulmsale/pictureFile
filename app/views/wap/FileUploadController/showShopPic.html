@@ -31,14 +31,14 @@
         $(document).ready(function(){
             var dataJSON = "";
             $.ajax({
-                type: 'POST',
-                url: "/folder/json" ,
+                type: 'GET',
+              //  url: "/folder/json" ,
+                url: "http://gxf.tunnel.mobi/folderJSON" ,
+                dataType : "jsonp",
+                data:{code : 'N9RXXkrqq6' , loginName : 'admin' , password : '12345611'},
                 success: function (data){
                     dataJSON = data;
 
-                } ,
-                error:function (data){
-                    alert("数据出错")
                 }
 
             });
@@ -144,7 +144,7 @@ am-avg-md-3 am-avg-lg-4 am-gallery-overlay" style="height:300px" data-am-gallery
                    <div class="am-gallery-item">
 
                            <img  src="${img?.url}" onclick="chockBox(${img?.id})" id="imgId${img?.id}"/>
-                           <h3 class="am-gallery-title" style="text-align: center">${img?.width}*${img?.height}</h3>
+                           <h3 class="am-gallery-title" style="text-align: center">*</h3>
                    </div>
                </li>
            #{/list}

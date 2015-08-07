@@ -37,7 +37,9 @@ POST /imageAjax                                 wap.FileUploadController.getImag
 # foundation
 GET  /folderJSON                                 foundation.folderJSON.excute
 POST  /imageJSON                                 foundation.imageJSON.excute
-POST  /imageJSON1                                 foundation.fileUpJSON1.excute
+POST  /upImage                                   foundation.fileUpJSON.excute
+GET   /getImageUrl                               foundation.imageJSON.getImage
+GET /ss                                          wap.FileUploadController.folderJSON
 
 
 

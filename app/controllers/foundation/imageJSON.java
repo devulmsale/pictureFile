@@ -1,9 +1,11 @@
 package controllers.foundation;
 
+import helper.imageupload.ImageUploader;
 import me.chanjar.weixin.common.util.StringUtils;
-import models.common.ImageVO;
 import models.mer.Merchant;
 import models.mer.MerchantImage;
+import models.movie_api.vo.ImageVO;
+import play.cache.Cache;
 import play.db.jpa.JPA;
 import play.mvc.Controller;
 
@@ -45,5 +47,22 @@ public class imageJSON extends Controller {
         List<ImageVO> imageVOList = ImageVO.changeMerchantImageToImageOV(imageList);
         renderJSON(imageVOList);
 
+    }
+
+    /**
+     * 图片的根据uFide 图片大小获取图片
+     * @param code
+     * @param uFid
+     * @param width
+     * @param height
+     * @return
+     */
+    public static String getImage(String code , String uFid , Integer width , Integer height) {
+        Object imageUrl =  Cache.get("CACHE_IMAGE_" + uFid + "_" + width + "x" + height);
+        if(imageUrl != null) {
+            return imageUrl.toString();
+        }else{
+            return ImageUploader.getImageUrl(uFid, width + "x" + height);
+        }
     }
 }

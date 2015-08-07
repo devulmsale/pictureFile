@@ -1,4 +1,4 @@
-package models.common;
+package models.movie_api.vo;
 
 import models.mer.MerchantImage;
 
@@ -24,8 +24,6 @@ public class ImageVO {
         ImageVO vo = null;
         for(MerchantImage mi : merchantImageList) {
             vo = new ImageVO();
-            vo.height = mi.height;
-            vo.width = mi.width;
             vo.uFid = mi.uFId;
             vo.url = mi.url;
             imageVOList.add(vo);
