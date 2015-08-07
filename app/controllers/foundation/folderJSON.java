@@ -1,7 +1,7 @@
 package controllers.foundation;
 
+import controllers.pic_api.vo.FolderJSON;
 import me.chanjar.weixin.common.util.StringUtils;
-import models.common.FolderJSON;
 import models.mer.FolderPropertie;
 import models.mer.Merchant;
 import models.mer.MerchantUser;

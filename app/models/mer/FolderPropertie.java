@@ -1,11 +1,10 @@
 package models.mer;
 
-import models.common.FolderAttr;
-import models.common.FolderJSON;
 import models.constants.DeletedStatus;
+import models.movie_api.vo.FolderAttr;
+import models.movie_api.vo.FolderJSON;
 import net.sf.oval.constraint.MaxLength;
 import net.sf.oval.constraint.MinLength;
-import org.h2.command.dml.Delete;
 import play.Logger;
 import play.data.validation.Required;
 import play.db.jpa.Model;

@@ -1,4 +1,4 @@
-package models.common;
+package models.movie_api.vo;
 
 /**
  * Created by upshan on 15/8/5.
