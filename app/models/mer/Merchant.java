@@ -35,6 +35,13 @@ public class Merchant extends Model{
     @Column(name = "code")
     public String code;
 
+    /**
+     * 分销对接应用的安全码。
+     * 安全码告知对接服务商，服务商使用这个安全码对请求参数生成校验码，只能校验码正确的请求才会被处理。详见api文档 。
+     */
+    @Column(name = "appSecret", length = 50)
+    public String appSecret;
+
 
     /**
      * 创建时间

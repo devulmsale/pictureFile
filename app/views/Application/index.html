@@ -1,4 +1,21 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
-
-#{welcome /}
+<script type="text/javascript">
+    $(document).ready(function(){
+        var params = new Object();
+        params.loginName="zhangsan";
+        params.password="sdfssd";
+        $.ajax({
+            type: 'POST',
+            url: "http://localhost:9013/api/v1/json" ,
+            data:{appCode : 'ANDROID2003' , machineCode : '381a72319c8dea810e' , time : 1379669198 ,
+                checkValue : 'da832adf08307412asdfa87sdf08a2341234', method :'folderJSON' , params : params},
+            success: function (data){
+                alert(data);
+            } ,
+            error:function (data){
+                alert("数据出错")
+            }
+        })
+    });
+</script>

@@ -1,12 +1,12 @@
-package models.common;
+package models.movie_api.vo;
 
+import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by upshan on 15/8/4.
  */
-public class FolderJSON {
+public class FolderJSON implements Serializable {
 
     public String title ;
 

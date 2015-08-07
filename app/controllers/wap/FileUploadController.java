@@ -1,25 +1,18 @@
 package controllers.wap;
 
 import controllers.wap.auth.MerchantSecure;
-import controllers.wap.auth.SkipLoginCheck;
+import controllers.pic_api.vo.FolderJSON;
 import helper.imageupload.ImageUploadResult;
 import helper.imageupload.ImageUploader;
-import models.common.FolderAttr;
-import models.common.FolderJSON;
 import models.mer.FolderPropertie;
 import models.mer.Merchant;
 import models.mer.MerchantImage;
-import models.mer.MerchantUser;
 import play.Logger;
-import play.Play;
 import play.mvc.Controller;
 import play.mvc.With;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by upshan on 15/8/4.

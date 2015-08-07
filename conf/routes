@@ -5,6 +5,13 @@
 # Home page
 GET     /                                       Application.index
 
+# RCP接口 v1.0
+*    /api/v1/json                            pic_api.v1.RcpApis.execute
+*    /api/v1/client                          pic_api.v1.RcpApis.execute
+
+
+
+
 # Ignore favicon requests
 GET     /favicon.ico                            404
 
