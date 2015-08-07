@@ -12,7 +12,6 @@ public class FolderJSON {
 
     public String type;
 
-
     public FolderAttr attr;
 
     public List<FolderJSON> products;
