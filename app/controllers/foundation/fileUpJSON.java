@@ -80,13 +80,15 @@ public class fileUpJSON extends Controller {
         Long maxSize=1024*1024*5l;
         if(size>maxSize){
             map.put("success",false);
-            map.put("msg", "上传的图片太大请重新上传");
+            map.put("msg", "上传的图片不能超过5M,请重新上传");
             renderJSON(map);
         }
 
         Integer width=sourceImg.getWidth();
         Integer height= sourceImg.getHeight();
 
+        System.out.println("width=="+width);
+        System.out.println("height==="+height);
 
         FolderPropertie folderPropertie = FolderPropertie.findByUN_DeletedAndId(folderId);
         MerchantImage merchantImage = new MerchantImage(merchant , folderPropertie , width , height);
@@ -104,7 +106,7 @@ public class fileUpJSON extends Controller {
             merchantImage.url = ImageUploader.getImageUrl(imageUploadResult.ufId, width+"x"+height);
             merchantImage.save();
             // CACHE_IMAGE_WEIXIAO_300x100
-            Cache.add("CACHE_IMAGE_"+merchantImage.uFId+"_"+width+"x"+height , merchantImage.url , "24h");
+          //  Cache.add("CACHE_IMAGE_"+merchantImage.uFId+"_"+width+"x"+height , merchantImage.url , "24h");
 
         }
         map.put("success",true);

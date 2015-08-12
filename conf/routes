@@ -25,6 +25,7 @@ GET     /public/                                staticDir:public
 *   /createShop                                 wap.SecureController.createShopRegister
 *   /shopRegister                               wap.SecureController.shopRegister
 *   /upload                                     wap.FileUploadController.upload
+*   /upOwnImage                                 wap.FileUploadController.saveFile
 POST /folder/json                               wap.FileUploadController.folderJSON
 POST /imageAjax                                 wap.FileUploadController.getImageByFolderAjax
 *   /creatRegister                              wap.SecureController.creatRegister
@@ -36,7 +37,7 @@ POST /imageAjax                                 wap.FileUploadController.getImag
 
 # foundation
 GET  /folderJSON                                 foundation.folderJSON.excute
-POST  /imageJSON                                 foundation.imageJSON.excute
+GET  /imageJSON                                 foundation.imageJSON.excute
 POST  /upImage                                   foundation.fileUpJSON.excute
 GET   /getImageUrl                               foundation.imageJSON.getImage
 GET /ss                                          wap.FileUploadController.folderJSON
