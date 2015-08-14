@@ -33,17 +33,16 @@
             $.ajax({
                 type: 'GET',
               //  url: "/folder/json" ,
-                url: "http://ulmsale.tunnel.mobi/folderJSON" ,
-                dataType : "JSONP",
-                data:{code : 'N9RXXkrqq6' , loginName : 'admin' , password : '12345611'},
+                url: "http://gxf.tunnel.mobi/folderJSON?code=N9RXXkr6&loginName=admin&password=123456&callback=?" ,
+                dataType : "jsonp",
+               // data:{code : 'N9RXXkr6' , loginName : 'admin' , password : '123456',callback :'dd'},
                 success: function (data){
+                 //   alert(0)
                     dataJSON = data;
-
                 } ,
-                error : function (data) {
-                    alert('数据错误');
+                error: function(){
+                    alert("数据出错")
                 }
-
             });
 
 
@@ -55,7 +54,7 @@
                     }, 400);
                 },
                 multiSelect: false,
-                cacheItems: true,
+                cacheItems: false,
                 folderSelect: true
             });
 
@@ -65,11 +64,13 @@
                 $('#folderId').val(id);
                 //alert(id)
                 $.ajax({
-                    type: 'POST',
-                    url: "/imageAjax" ,
-                      data: {id:id} ,
+                    type: 'GET',
+                    url: "http://gxf.tunnel.mobi/imageJSON?code=N9RXXkr6&callback=?" ,
+                      data: {folderId:id} ,
+                    dataType : "jsonp",
                     success: function (data){
                         $('#image_ul').html('');
+                        //alert(0)
                         // 构造 li ...
                         var li="";
                         $.each(data,function(idx,type){
@@ -88,6 +89,11 @@
                 // do something with data: { selected: [array], target: [object] }
             });
         });
+
+        function processResponse(res){
+            alert('totalInterestPmtAmt='+ res.totalInterestPmtAmt);
+            alert('totalPmtAmt='+ res.totalPmtAmt);
+        }
 //
         function chockBox(id){
             // 1,2,3,5

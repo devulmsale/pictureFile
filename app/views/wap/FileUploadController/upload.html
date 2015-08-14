@@ -3,18 +3,60 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>用户注册</title>
+    <title>上传图片</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    *{<link rel="stylesheet" href="/public/bootstrap/masonry-docs.css" media="screen">}*
+
     <link rel="alternate icon" type="image/png" href="/public/bootstrap/amaze/assets/i/favicon.png">
     <link rel="stylesheet" href="/public/bootstrap/amaze/assets/css/amazeui.min.css"/>
     <link rel="stylesheet" href="/public/bootstrap/amaze/tree/amazeui.tree.min.css"/>
     <script type="text/javascript" src="/public/bootstrap/amaze/assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="/public/bootstrap/amaze/assets/js/amazeui.min.js"></script>
     <script type="text/javascript" src="/public/bootstrap/amaze/tree/amazeui.tree.min.js"></script>
+
+    *{<script type="text/javascript" src="/public/bootstrap/masonry.pkgd.min.js"></script>}*
+    *{<script type="text/javascript" src="/public/bootstrap/main.js"></script>}*
+    *{<link rel="stylesheet" href="/public/bootstrap/demo.less"/>}*
+
+
+    *{<script src="/public/bootstrap/masonry-docs.min.js"></script>}*
+
+    <script type="text/javascript" src="/public/layer/layer.js"></script>
+    *{<link rel="stylesheet" href="/public/bootstrap/skin/layer.css"/>}*
+
+
+
+    *{<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->}*
+    *{<script src="/public/js/vendor/jquery.ui.widget.js"></script>}*
+    *{<!-- The Load Image plugin is included for the preview images and image resizing functionality -->}*
+    *{<script src="//blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js"></script>}*
+    *{<!-- The Canvas to Blob plugin is included for image resizing functionality -->}*
+    *{<!-- Bootstrap JS is not required, but included for the responsive demo navigation -->}*
+    *{<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->}*
+    *{<script src="/public/js/jquery.iframe-transport.js"></script>}*
+    *{<!-- The basic File Upload plugin -->}*
+    *{<script src="/public/js/jquery.fileupload.js"></script>}*
+    *{<!-- The File Upload processing plugin -->}*
+    *{<script src="/public/js/jquery.fileupload-process.js"></script>}*
+    *{<!-- The File Upload image preview & resize plugin -->}*
+    *{<script src="/public/js/jquery.fileupload-image.js"></script>}*
+    *{<!-- The File Upload audio preview plugin -->}*
+
+    *{<!-- The File Upload video preview plugin -->}*
+
+    *{<!-- The File Upload validation plugin -->}*
+    *{<script src="/public/js/jquery.fileupload-validate.js"></script>}*
+
+    *{<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">}*
+    *{<!-- Generic page styles -->}*
+    *{<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->}*
+    *{<link rel="stylesheet" href="/public/css/jquery.fileupload.css">}*
+
     <style>
         .header {
             text-align: center;
@@ -27,17 +69,26 @@
         .header p {
             font-size: 14px;
         }
+
     </style>
     <script type="text/javascript">
         $(document).ready(function(){
+            var msg='${flash.get("msg")}';
+          if(msg==''){
 
-
+          }else{
+              layer.msg(msg,{
+                  icon: 0,
+                  time: 4000 //2秒关闭（如果不配置，默认是3秒）
+              });
+          }
 
             var dataJSON = "";
             $.ajax({
                 type: 'POST',
                 url: "/folder/json" ,
                 success: function (data){
+
                     dataJSON = data;
 
                 } ,
@@ -63,6 +114,7 @@
             $('#firstTree').on('selected.tree.amui', function (event, data) {
                 var id = $('.am-tree-selected').attr("id");
                 $('#firstTree').tree('openFolder', $('#'+id+"-label"));
+               // alert(id)
                 $('#folderId').val(id);
                 //alert(id)
                 $.ajax({
@@ -70,15 +122,37 @@
                     url: "/imageAjax" ,
                       data: {id:id} ,
                     success: function (data){
-                        $('#image_ul').html('');
+                        $('#image_div').html('');
+                       // alert(0)
                         // 构造 li ...
-                        var li="";
+
+
+
+                        var li="<ul data-am-widget=\"gallery\"  class=\"am-gallery am-avg-sm-2am-avg-md-4 am-avg-lg-5 am-gallery-default\" data-am-gallery=\"{ pureview: true }\">";
                         $.each(data,function(idx,type){
                           // alert(idx + "," + type.url);
-                             li=li+"<li> <div class=\"am-gallery-item\">  <img src="+type.url+"  onclick=\"chockBox("+type.id+")\" id=\"imgId"+type.id+"\"/> <h3 class=\"am-gallery-title\" style=\"text-align: center\">"+type.width+"*"+type.height+"</h3>    </div> </li>"
-
+                             li=li+"<li> <div class=\"am-gallery-item\" style=\" width:auto; height:60px; display:table-cell; vertical-align:middle;\">  <img src="+type.url+" style=\" border:none; max-width:100%; max-height:100%; margin:auto;\"/>  </div>  <p style=\"text-align: center;color: #AFA7A7;margin: 0px;\">"+type.width+"*"+type.height+"</p> </li>"
+                             //  li= "<div class=\"grid-image-item\"> <img  src="+type.url+" /> </div>"
+                          //  $('#image_ul').append(li)
                         })
-                        $('#image_ul').html(li);
+                        li=li+"</ul>"
+                        $('#image_div').html(li);
+                        //$('#image_div').append("</div>")
+                       // $('#image_div').html(li);
+//                        var $container = $('#container');
+//                        $container.imagesLoaded(function(){
+//                            $container.masonry({
+//                                itemSelector : '.grid-image-item',
+//                                columnWidth : 240
+//                            });
+//                        });
+
+//                        var container = document.querySelector('#container');
+//                        var msnry = new Masonry( container, {
+//                            // options...
+//                            itemSelector: '.item',
+//                            columnWidth: 200
+//                        });
                     } ,
                     error:function (){
                         alert("数据异常")
@@ -104,20 +178,42 @@
                 $('#imageId').val(value+id+',')
                 $('#imgId'+id).addClass("am-img-thumbnail")
             }
+
+
         }
     </script>
 </head>
 <body>
 <div class="header">
     <div class="am-g">
-        <h1>Web ide</h1>
-        <p>Integrated Development Environment<br/>代码编辑，代码生成，界面设计，调试，编译</p>
+        <h1>上传图片</h1>
+        <p>上传到指定的文件夹中</p>
     </div>
-    <hr />
+
+
+</div>
+
+
+<div class="container">
+
+    *{<!-- The fileinput-button span is used to style the file input field as button -->}*
+    *{<span class="btn btn-success fileinput-button">}*
+        *{<i class="glyphicon glyphicon-plus"></i>}*
+        *{<span>Add files...</span>}*
+        *{<!-- The file input field used as target for the file upload widget -->}*
+        *{<input id="fileupload" type="file" name="files[]" multiple>}*
+    *{</span>}*
+    *{<br>}*
+    *{<br>}*
+    *{<!-- The global progress bar -->}*
+    *{<!-- The container for the uploaded files -->}*
+    *{<div id="files" class="files"></div>}*
+
+
 </div>
 <div class="am-container">
 
-    <div class="am-u-lg-4 am-u-sm-center">
+    <div class="am-u-lg-3 am-u-sm-center">
 
         <button
                 type="button"
@@ -151,7 +247,7 @@
                         </div>
                         <div class="am-form-group">
                             <div class="am-u-sm-10 am-u-sm-offset-2">
-                                <button type="submit" class="am-btn am-btn-default">提交登入</button>
+                                <button type="submit" class="am-btn am-btn-default">提交</button>
                             </div>
                         </div>
                     </form>
@@ -176,22 +272,62 @@
                 </button>
             </li>
         </ul>
+
     </div>
-    <div class="am-u-lg-8">
-        <input  type="hidden" id="imageId">
-        <ul data-am-widget="gallery" id="image_ul" class="am-gallery am-avg-sm-2
-am-avg-md-3 am-avg-lg-4 am-gallery-overlay" style="height:300px" data-am-gallery="{ pureview: false }">
+    <form action="/upOwnImage" id="imgFrm" enctype="multipart/form-data" method="POST">
+        <div class="am-form-group am-form-file am-u-sm-4">
+            <button type="button" class="am-btn am-btn-danger am-btn-sm">
+                <i class="am-icon-cloud-upload"></i> 选择要上传的文件</button>
+            <input id="doc-form-file" type="file" id="fileId" name="images" multiple>
+            <input type="hidden" name="folderId" id="folderId">
+        </div>
+
+    </form>
 
 
-        #{list imageList,as:'img'}
-               <li>
-                   <div class="am-gallery-item">
+        <button id="frmBtn" name="frmBtn" style="float:right; margin-top: 0px;">提交</button>
+    <div id="file-list"></div>
 
-                           <img  src="${img?.url}" onclick="chockBox(${img?.id})" id="imgId${img?.id}"/>
-                           <h3 class="am-gallery-title" style="text-align: center">*</h3>
-                   </div>
-               </li>
-           #{/list}
+    <div class="am-u-lg-8" >
+
+                        <div id="image_div">
+                        <ul data-am-widget="gallery"  class="am-gallery am-avg-sm-2
+am-avg-md-4 am-avg-lg-5 am-gallery-default" data-am-gallery="{ pureview: true }">
+                    #{list imageVOList,as:'img'}
+                    <li >
+                        <div class="am-gallery-item" style=" width:auto; height:60px; display:table-cell;/*最重要*/ vertical-align:middle;/*设置水平居中*/" >
+                                <img style=" border:none; max-width:100%; max-height:100%; margin:auto;/*设置垂直居中*/" src="${img?.url}"  />
+
+                        </div>
+                        <p style="text-align: center;color: #AFA7A7;margin: 0px;">${img?.width}*${img?.height}</p>
+                    </li>
+                    #{/list}
+                        </ul>
+                        </div>
+
+
+
+        *{<div class="js-masonry" data-masonry-options='{"itemSelector": ".item", "columnWidth": 300}'>}*
+
+        *{#{list imageList,as:'img'}}*
+            *{<div class="item"> <img  src="${img?.url}" onclick="chockBox(${img?.id})" id="imgId${img?.id}"/></div>}*
+        *{#{/list}}*
+        *{</div>}*
+
+        *{<ul data-am-widget="gallery" id="image_ul" class="am-gallery am-avg-sm-2}*
+*{am-avg-md-3 am-avg-lg-4 am-gallery-overlay" style="height:300px" data-am-gallery="{ pureview: false }">}*
+
+
+
+        *{#{list imageList,as:'img'}}*
+               *{<li>}*
+                   *{<div class="am-gallery-item">}*
+
+                           *{<img  src="${img?.url}" onclick="chockBox(${img?.id})" id="imgId${img?.id}"/>}*
+                           *{<h3 class="am-gallery-title" style="text-align: center">*</h3>}*
+                   *{</div>}*
+               *{</li>}*
+           *{#{/list}}*
 
 
 
@@ -206,51 +342,30 @@ am-avg-md-3 am-avg-lg-4 am-gallery-overlay" style="height:300px" data-am-gallery
                     </a>
                 </div>
             </li>}*
-        </ul>
 
 
         <!-- 上传图片 -->
-        *{<form action="@{wap.FileUploadController.saveFile()}" id="imgFrm" enctype="multipart/form-data" method="POST">
-        <div class="am-form-group am-form-file am-u-sm-5">
-            <button type="button" class="am-btn am-btn-danger am-btn-sm">
-                <i class="am-icon-cloud-upload"></i> 选择要上传的文件</button>
-            <input id="doc-form-file" type="file" name="images" multiple>
-            <input type="hidden" name="folderId" id="folderId">
 
 
-        </div>
-            宽度: <input type="text" name="width">
-            <br>
-            高度: <input type="text" name="height">
-        </form>
-        <br>
-        <div class="am-u-sm-7">
-            <button id="frmBtn" name="frmBtn">提交</button>
-        </div>
-        <div id="file-list"></div>}*
+
+        *{<form action="http://gxf.tunnel.mobi/upImage" id="imgFrm" enctype="multipart/form-data" method="POST">}*
+            *{<div class="am-form-group am-form-file am-u-sm-5">}*
+                *{<button type="button" class="am-btn am-btn-danger am-btn-sm">}*
+                    *{<i class="am-icon-cloud-upload"></i> 选择要上传的文件</button>}*
+                *{<input id="doc-form-file" type="file" name="image" multiple>}*
 
 
-        <form action="/upImage" id="imgFrm" enctype="multipart/form-data" method="POST">
-            <div class="am-form-group am-form-file am-u-sm-5">
-                <button type="button" class="am-btn am-btn-danger am-btn-sm">
-                    <i class="am-icon-cloud-upload"></i> 选择要上传的文件</button>
-                <input id="doc-form-file" type="file" name="image" multiple>
+            *{</div>}*
 
 
-            </div>
-
-            宽度: <input type="text" name="width">
-            <br>
-            高度: <input type="text" name="height">
-            <br>
-            folderid<input type="text" name="folderId">
-            code <input type="text" name="code" value="N9RXXkr6">
-        </form>
-        <br>
-        <div class="am-u-sm-7">
-            <button id="frmBtn" name="frmBtn">提交</button>
-        </div>
-        <div id="file-list"></div>
+            *{folderid<input type="text" name="folderId">}*
+            *{code <input type="text" name="code" value="N9RXXkr6">}*
+        *{</form>}*
+        *{<br>}*
+        *{<div class="am-u-sm-7">}*
+            *{<button id="frmBtn" name="frmBtn">提交</button>}*
+        *{</div>}*
+        *{<div id="file-list"></div>}*
 
 
         <script>
@@ -274,4 +389,5 @@ am-avg-md-3 am-avg-lg-4 am-gallery-overlay" style="height:300px" data-am-gallery
 </div>
 
 </body>
+
 </html>

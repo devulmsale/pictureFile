@@ -1,5 +1,6 @@
 package controllers.foundation;
 
+import com.google.gson.Gson;
 import me.chanjar.weixin.common.util.StringUtils;
 import models.mer.FolderPropertie;
 import models.mer.Merchant;
@@ -25,7 +26,7 @@ public class folderJSON extends Controller {
      * @return  JSON {success : "false"/true , msg : '错误信息/[正确信息]' , tree}
      *
      */
-    public static void excute(String code , String loginName , String password) {
+    public static void excute(String code , String loginName , String password,String callback) {
 
         Logger.info("执行 folderJSON.excute");
 
@@ -96,11 +97,10 @@ public class folderJSON extends Controller {
             resultMap.put("msg" , "登录账号所属商户跟code商户不一致");
             renderJSON(resultMap);
         }
-        Logger.info("6");
 
         List<FolderJSON> topFolderJsonList = FolderPropertie.findAllFolderJSON();
-        Logger.info("7");
-        response.setHeader("Access-Control-Allow-Origin" , "*");
-        renderJSON("folderJSON"+topFolderJsonList);
+        Gson gson = new Gson();
+        gson.toJson(topFolderJsonList);
+        renderJSON(callback + "(" + gson.toJson(topFolderJsonList) + ")");
     }
 }
