@@ -51,7 +51,7 @@ public class XmlApis extends Controller {
             renderXmlResponse(apiResponse);
         }
 
-        ApiResponse apiResponse = new ApiResponseBuilder(context).build();
+        ApiResponse apiResponse = null; // new ApiResponseBuilder(context).build();
 
         renderXmlResponse(apiResponse);
     }
