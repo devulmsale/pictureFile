@@ -32,7 +32,7 @@ public class RcpApis extends Controller {
     public static void execute() {
         String body = IO.readContentAsString(request.body);
 
-        Logger.info("body : %s  -- " , request.body);
+        Logger.info("body : %s  — " ,  body);
         if (StringUtils.isBlank(body)) {
             JsonResponse jsonResponse = new JsonResponseBuilder(ApiResultCode.G400).build();
             renderJsonResponse(jsonResponse);

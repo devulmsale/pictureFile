@@ -22,7 +22,7 @@ public class folderJSON extends Controller {
      *
      * @param code  创建用户时自动分配的 code
      * @param password  用户自定义密码
-     * @return  JSON {success : false/true , msg : '错误信息/[正确信息]' , tree}
+     * @return  JSON {success : "false"/true , msg : '错误信息/[正确信息]' , tree}
      *
      */
     public static void excute(String code , String loginName , String password) {
@@ -38,7 +38,7 @@ public class folderJSON extends Controller {
          * 判断 code 是否为空
          */
         if(StringUtils.isBlank(code)) {
-            resultMap.put("success" , false);
+            resultMap.put("success" , "false");
             resultMap.put("msg" , "未获取到code信息");
             renderJSON(resultMap);
         }
@@ -49,7 +49,7 @@ public class folderJSON extends Controller {
          * 判断 loginName 是否为空
          */
         if(StringUtils.isBlank(loginName)) {
-            resultMap.put("success" , false);
+            resultMap.put("success" , "false");
             resultMap.put("msg" , "未获取到loginName信息");
             renderJSON(resultMap);
         }
@@ -60,7 +60,7 @@ public class folderJSON extends Controller {
          * 判断 password 是否为空
          */
         if(StringUtils.isBlank(password)) {
-            resultMap.put("success" , false);
+            resultMap.put("success" , "false");
             resultMap.put("msg" , "未获取到password信息");
             renderJSON(resultMap);
         }
@@ -71,9 +71,10 @@ public class folderJSON extends Controller {
          */
         Merchant merchant = Merchant.findByCode(code);
         if(merchant == null) {
-            resultMap.put("success" , false);
+            resultMap.put("success" , "false");
             resultMap.put("msg" , "code 不存在或已删除");
-            renderJSON(resultMap);
+            String resultBack = "callback("+resultMap+")";
+            renderJSON(resultBack);
         }
         Logger.info("4");
 
@@ -82,7 +83,7 @@ public class folderJSON extends Controller {
          */
         MerchantUser merchantUser = MerchantUser.findByLoginNameAndPassword(loginName, password);
         if(merchantUser == null) {
-            resultMap.put("success" , false);
+            resultMap.put("success" , "false");
             resultMap.put("msg" , "用户名或密码错误");
             renderJSON(resultMap);
         }
@@ -91,7 +92,7 @@ public class folderJSON extends Controller {
          * 判断登录人和商户是否一致
          */
         if(merchant != merchantUser.merchant) {
-            resultMap.put("success" , false);
+            resultMap.put("success" , "false");
             resultMap.put("msg" , "登录账号所属商户跟code商户不一致");
             renderJSON(resultMap);
         }
@@ -99,6 +100,7 @@ public class folderJSON extends Controller {
 
         List<FolderJSON> topFolderJsonList = FolderPropertie.findAllFolderJSON();
         Logger.info("7");
+        response.setHeader("Access-Control-Allow-Origin" , "*");
         renderJSON("folderJSON"+topFolderJsonList);
     }
 }

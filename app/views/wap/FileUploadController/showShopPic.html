@@ -33,12 +33,15 @@
             $.ajax({
                 type: 'GET',
               //  url: "/folder/json" ,
-                url: "http://gxf.tunnel.mobi/folderJSON" ,
-                dataType : "jsonp",
+                url: "http://ulmsale.tunnel.mobi/folderJSON" ,
+                dataType : "JSONP",
                 data:{code : 'N9RXXkrqq6' , loginName : 'admin' , password : '12345611'},
                 success: function (data){
                     dataJSON = data;
 
+                } ,
+                error : function (data) {
+                    alert('数据错误');
                 }
 
             });
