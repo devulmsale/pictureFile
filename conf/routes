@@ -20,33 +20,36 @@ GET     /public/                                staticDir:public
 
 
 # WAP
-*   /register                                   wap.SecureController.register
-*   /shopRegister                               wap.SecureController.shopRegister
-*   /createShop                                 wap.SecureController.createShopRegister
-*   /shopRegister                               wap.SecureController.shopRegister
-*   /upload                                     wap.FileUploadController.upload
-*   /upOwnImage                                 wap.FileUploadController.saveFile
-POST /folder/json                               wap.FileUploadController.folderJSON
-POST /imageAjax                                 wap.FileUploadController.getImageByFolderAjax
-*   /creatRegister                              wap.SecureController.creatRegister
-*   /createFolder                               wap.FolderPropertieController.createFolder
-*   /login                                      wap.auth.merchantsecure.login
-*   /showShopPic                                wap.FileUploadController.showShopPic
+*      /register                                   wap.SecureController.register
+*      /shopRegister                               wap.SecureController.shopRegister
+*      /createShop                                 wap.SecureController.createShopRegister
+*      /shopRegister                               wap.SecureController.shopRegister
+*      /upload                                     wap.FileUploadController.upload
+*      /upOwnImage                                 wap.FileUploadController.saveFile
+POST   /folder/json                                wap.FileUploadController.folderJSON
+POST   /imageAjax                                  wap.FileUploadController.getImageByFolderAjax
+*      /creatRegister                              wap.SecureController.creatRegister
+*      /createFolder                               wap.FolderPropertieController.createFolder
+*      /login                                      wap.auth.merchantsecure.login
+*      /showShopPic                                wap.FileUploadController.showShopPic
+
+#短信接口
+*      /sendSms                                    message.SmsJSON.sendSms
 
 
 
 # foundation
-GET  /folderJSON                                 foundation.folderJSON.excute
-GET  /imageJSON                                 foundation.imageJSON.excute
-POST  /upImage                                   foundation.fileUpJSON.excute
-GET   /getImageUrl                               foundation.imageJSON.getImage
-GET /ss                                          wap.FileUploadController.folderJSON
+GET    /folderJSON                                 foundation.folderJSON.excute
+GET    /imageJSON                                  foundation.imageJSON.excute
+POST   /upImage                                    foundation.fileUpJSON.excute
+GET    /getImageUrl                                foundation.imageJSON.getImage
+GET    /ss                                         wap.FileUploadController.folderJSON
 
 
 
 # foundation
-*    /upload/helper                              foundation.UploadHelper.execute
+*      /upload/helper                              foundation.UploadHelper.execute
 
 
 # Catch all
-*       /{controller}/{action}                  {controller}.{action}
+*     /{controller}/{action}                       {controller}.{action}
