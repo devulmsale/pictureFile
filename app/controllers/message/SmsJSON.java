@@ -67,7 +67,7 @@ public class SmsJSON extends Controller {
 
         String type="";
        // String resp = "";
-        String content = "你的验证码是"+message+" 【悠悠小镇】";
+        String content = "你的验证码是:"+message+" 【悠悠小镇】";
         Logger.info("11");
         try {
             StringBuffer sb = new StringBuffer("http://m.5c.com.cn/api/send/?");//访问地址
