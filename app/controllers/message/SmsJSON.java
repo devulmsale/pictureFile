@@ -1,5 +1,7 @@
 package controllers.message;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import me.chanjar.weixin.common.util.StringUtils;
 import models.mer.Merchant;
 import play.Logger;
@@ -7,6 +9,7 @@ import play.mvc.Controller;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -19,6 +22,7 @@ import java.util.Map;
 public class SmsJSON extends Controller {
     public  static void sendSms(String code , String phone , String message){
 
+
         Map<String , Object> resultMap = new HashMap<>();
 
         /**
@@ -26,7 +30,7 @@ public class SmsJSON extends Controller {
          */
         if(StringUtils.isBlank(code)) {
             resultMap.put("success", "false");
-            resultMap.put("msg" , "未获取到code信息");
+            resultMap.put("msg" , "code  is null");
             renderJSON(resultMap);
         }
 
@@ -35,7 +39,7 @@ public class SmsJSON extends Controller {
          */
         if(StringUtils.isBlank(phone)){
             resultMap.put("success","false");
-            resultMap.put("msg","手机号不能为空");
+            resultMap.put("msg","phone is null");
             renderJSON(resultMap);
         }
 
@@ -44,7 +48,7 @@ public class SmsJSON extends Controller {
          */
         if(StringUtils.isBlank(message)){
             resultMap.put("success","false");
-            resultMap.put("msg","发送的信息不能为空");
+            resultMap.put("msg","message is null");
             renderJSON(resultMap);
         }
 
@@ -55,21 +59,22 @@ public class SmsJSON extends Controller {
         Merchant merchant = Merchant.findByCode(code);
         if(merchant == null) {
             resultMap.put("success" , "false");
-            resultMap.put("msg" , "code 不存在或已删除");
-            String resultBack = "callback("+resultMap+")";
-            renderJSON(resultBack);
+            resultMap.put("msg", "code not exist or code is delete");
+         //   String resultBack = "callback("+resultMap+")";
+
+            renderJSON(resultMap);
         }
 
         String type="";
-        String resp = "";
-        String content = "你的验证码是 99000 【悠悠小镇】";
+       // String resp = "";
+        String content = "你的验证码是"+message+" 【悠悠小镇】";
         Logger.info("11");
         try {
             StringBuffer sb = new StringBuffer("http://m.5c.com.cn/api/send/?");//访问地址
             sb.append("apikey=").append("fac4f722c98730807fbcb7f4fd6bc586");//秘钥
             sb.append("&username=").append("haigao");//登录名
             sb.append("&password=").append("327958036");//密码
-            sb.append("&mobile=").append("18661971971");//手机号
+            sb.append("&mobile=").append(phone);//手机号
             sb.append("&content=" + URLEncoder.encode(content));
             Logger.info("22");
             URL url = new URL(sb.toString());
@@ -81,13 +86,22 @@ public class SmsJSON extends Controller {
             Logger.info("33");
             if(resps[0].equals("success")){
                 Logger.info("44");
-                resp="000";
+
+                resultMap.put("success", "true");
+                resultMap.put("msg" , "success");
+                renderJSON(resultMap);
             }else{
                 Logger.info("55");
+                resultMap.put("success", "false");
+                resultMap.put("msg" , "not know error");
+                renderJSON(resultMap);
                 Logger.info("发送短信失败");
             }
         } catch (Exception exp) {
             Logger.info("66");
+            resultMap.put("success", "false");
+            resultMap.put("msg" , "not know error");
+            renderJSON(resultMap);
             Logger.info("发送短信失败22");
 
         }
